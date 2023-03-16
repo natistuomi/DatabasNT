@@ -1,4 +1,4 @@
-# Installation av stöd för MySQL i IntelliJ-projekt
+# Installation av stöd för MySQL i IntelliJ-projekt!
 
 1. Ladda ner biblioteket Connector/J från [MySQLs hemsida](https://dev.mysql.com/downloads/connector/j/). Enklast är att välja platform independent och välja zip-filen
 2. Packa upp filen `mysql-connector-java-8.0.32.jar` till en bra plats
