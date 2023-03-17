@@ -3,15 +3,12 @@ import java.sql.*;
 
 public class DatabaseExample {
     public static void main(String[] args) {
+        DatabaseLogin a = new DatabaseLogin();
         Connection conn = null;
-        String user = "magnus";
-        JPasswordField pf = new JPasswordField();
-        JOptionPane.showConfirmDialog(null, pf, "password?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        String password = new String(pf.getPassword());
 
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/bookshop? "+
-                    "allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC",user,password);
+            conn = DriverManager.getConnection("jdbc:mysql://" + a.getHost() + ":" + a.getPort() + "/" + a.getDatabase() + "? "+
+                    "allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC", a.getUser(),a.getPassword());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -19,25 +16,26 @@ public class DatabaseExample {
 
         try {
             Statement stmt = conn.createStatement();
-            String SQLQuery = "SELECT * FROM book";
+            String SQLQuery = "SELECT * FROM nt19users";
             ResultSet result = stmt.executeQuery(SQLQuery);
 
             ResultSetMetaData metadata = result.getMetaData();
 
             int numCols = metadata.getColumnCount();
             for (int i = 1 ; i <= numCols ; i++) {
-                System.out.println(metadata.getColumnClassName(i));
+                System.out.println("Kolumn " + i + ": " + metadata.getColumnLabel(i));
             }
 
             while (result.next()) {
                 String output = "";
                 output += result.getInt("id") + ", " +
-                        result.getString("title") + ", " +
-                        result.getString("author") + ", " +
-                        result.getDouble("price") + ", " +
-                        result.getInt("quantity");
+                        result.getString("name");
                 System.out.println(output);
             }
+            String thisname = "Korinth";
+
+            //SQLQuery = "INSERT INTO nt19users(name) VALUES(thisname)"; Does not work!
+            //stmt.executeUpdate(SQLQuery);
 
             stmt.close();
             conn.close();
